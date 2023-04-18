@@ -5,49 +5,48 @@ namespace NeoTetris
     class Program
     {
         static StructBloco nextBlock = new StructBloco();
-
+        static WindowRect PlayWindow = new WindowRect(); 
 
         static void Main(string[] args)
         {
-
             bool processoIniciado = true;
 
-            Console.WriteLine("Iniciando processo!");
             while (processoIniciado)
             {
-                Console.WriteLine("Processo Iniciado");
-
-                Thread.Sleep(1000);
+                Thread.Sleep(1500);
                 if (Console.KeyAvailable)
                 {
                     var key = Console.ReadKey(true);
                     if (key.Key == ConsoleKey.Enter)
                         break;
                 }
+                MostrarBloco();
             }
         }
 
-        private static void MostrarProximoBloco()
+        private static void MostrarBloco()
         {
-            nextBlock = Blocos.Generate(); // get next block
+            Blocos bloco = new Blocos();
+            Tetris game = new Tetris();
+            nextBlock = bloco.Gerar();
 
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(PlayWindow.width + PlayWindow.left + 4, 8);
-            Console.Write("Next");
-            Console.SetCursorPosition(PlayWindow.width + PlayWindow.left + 2, 9);
+            Console.SetCursorPosition(PlayWindow.largura+ PlayWindow.esquerda + 2,0);
+            Console.Write("Impulso");
+            Console.SetCursorPosition(PlayWindow.largura+ PlayWindow.esquerda + 2, 1);
             Console.Write("¤¤¤¤¤¤¤¤");
 
             for (int i = 1; i <= 6; i++)
             {
-                Console.SetCursorPosition(PlayWindow.width + PlayWindow.left + 2, i + 9);
+                Console.SetCursorPosition(PlayWindow.largura+ PlayWindow.esquerda + 2, i + 1);
                 Console.Write("¤      ¤");
             }
 
-            Console.SetCursorPosition(PlayWindow.width + PlayWindow.left + 2, 15);
+            Console.SetCursorPosition(PlayWindow.largura+ PlayWindow.esquerda + 2, 7);
             Console.Write("¤¤¤¤¤¤¤¤");
             Console.ResetColor();
 
-            Blocos.Preview(new Point(PlayWindow.width + PlayWindow.left + 6, 12), nextBlock);
+            game.Preview(new Ponteiro(PlayWindow.largura+ PlayWindow.esquerda + 6, 4), nextBlock);
         }
     }
 }

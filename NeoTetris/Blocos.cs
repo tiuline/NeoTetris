@@ -1,11 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static NeoTetris.Enums;
+﻿using static NeoTetris.Enums;
 
 namespace NeoTetris
 {
@@ -23,9 +16,9 @@ namespace NeoTetris
             set { m_block.tipoBloco = value; }
         }
 
-        public Point Location
+        public Ponteiro Location
         {
-            get { return new Point(m_blockpos.x, m_blockpos.y); }
+            get { return new Ponteiro(m_blockpos.x, m_blockpos.y); }
             set { m_blockpos = value; }
         }
 
@@ -53,16 +46,12 @@ namespace NeoTetris
                 default:
                     return ConsoleColor.DarkCyan;
             }
-            // as cores ficam com o nome em ingles por ser coisa do System
         }
 
         public StructBloco Gerar()
         {
             Random rnd = new Random();
-
-            // pick random pieces
-            return new StructBloco((Enums.Rotacao)rnd.Next(0, Enum.GetNames(typeof(Enums.Rotacao)).Length),
-                                   (Enums.TipoBloco)rnd.Next(0, Enum.GetNames(typeof(Enums.TipoBloco)).Length));
+            return new StructBloco((Enums.Rotacao)rnd.Next(0, Enum.GetNames(typeof(Enums.Rotacao)).Length), (Enums.TipoBloco)rnd.Next(0, Enum.GetNames(typeof(Enums.TipoBloco)).Length));
         }
 
         public WindowRect Rotate(Rotacao novoAngulo)
@@ -83,157 +72,152 @@ namespace NeoTetris
 
         public Boolean[] SelecionaProximoBloco(StructBloco StructBloco)
         {
-            // data for 4v4 block shapes
             bool[] arrData = new bool[TAMANHO_BLOCO << 2];
 
             switch (StructBloco.tipoBloco)
             {
                 case Enums.TipoBloco.bloco01:
-                    if (StructBloco.angulo.Equals(Enums.Rotacao.r0) ||
-                       StructBloco.angulo.Equals(Enums.Rotacao.r180))
+                    if (StructBloco.angulo.Equals(Enums.Rotacao.r0) || StructBloco.angulo.Equals(Enums.Rotacao.r180))
                     {
-                        arrData[2] = true;  // ..#. 0123
-                        arrData[6] = true;  // ..#. 4567
-                        arrData[10] = true; // ..#. 8901
-                        arrData[14] = true; // ..#. 2345
+                        arrData[2] = true;  
+                        arrData[6] = true;  
+                        arrData[10] = true; 
+                        arrData[14] = true; 
                     }
                     else
                     {
-                        arrData[12] = true; // .... 0123
-                        arrData[13] = true; // .... 4567
-                        arrData[14] = true; // .... 8901
-                        arrData[15] = true; // #### 2345
+                        arrData[12] = true; 
+                        arrData[13] = true; 
+                        arrData[14] = true; 
+                        arrData[15] = true; 
                     }
-
                     break;
                 case Enums.TipoBloco.bloco02:
-                    arrData[0] = true; // ##.. 0123
-                    arrData[1] = true; // ##.. 4567
-                    arrData[4] = true; // .... 8901
-                    arrData[5] = true; // .... 2345
+                    arrData[0] = true; 
+                    arrData[1] = true; 
+                    arrData[4] = true; 
+                    arrData[5] = true; 
                     break;
                 case Enums.TipoBloco.bloco03:
-                    if (StructBloco.angulo.Equals(Enums.Rotacao.r0) ||
-                       StructBloco.angulo.Equals(Enums.Rotacao.r180))
+                    if (StructBloco.angulo.Equals(Enums.Rotacao.r0) || StructBloco.angulo.Equals(Enums.Rotacao.r180))
                     {
-                        arrData[5] = true; // .... 0123
-                        arrData[6] = true; // .##. 4567
-                        arrData[8] = true; // ##.. 8901
-                        arrData[9] = true; // .... 2345
+                        arrData[5] = true; 
+                        arrData[6] = true; 
+                        arrData[8] = true; 
+                        arrData[9] = true; 
                     }
                     else
                     {
-                        arrData[1] = true;  // .#.. 0123
-                        arrData[5] = true;  // .##. 4567
-                        arrData[6] = true;  // ..#. 8901
-                        arrData[10] = true; // .... 2345
+                        arrData[1] = true;  
+                        arrData[5] = true;  
+                        arrData[6] = true;  
+                        arrData[10] = true; 
                     }
                     break;
                 case Enums.TipoBloco.bloco04:
-                    if (StructBloco.angulo.Equals(Enums.Rotacao.r0) ||
-                       StructBloco.angulo.Equals(Enums.Rotacao.r180))
+                    if (StructBloco.angulo.Equals(Enums.Rotacao.r0) || StructBloco.angulo.Equals(Enums.Rotacao.r180))
                     {
-                        arrData[4] = true;  // .... 0123
-                        arrData[5] = true;  // ##.. 4567
-                        arrData[9] = true;  // .##. 8901
-                        arrData[10] = true; // .... 2345
+                        arrData[4] = true;  
+                        arrData[5] = true;  
+                        arrData[9] = true;  
+                        arrData[10] = true; 
                     }
                     else
                     {
-                        arrData[2] = true; // ..#. 0123
-                        arrData[5] = true; // .##. 4567
-                        arrData[6] = true; // .#.. 8901
-                        arrData[9] = true; // .... 2345
+                        arrData[2] = true; 
+                        arrData[5] = true; 
+                        arrData[6] = true; 
+                        arrData[9] = true; 
                     }
                     break;
                 case Enums.TipoBloco.bloco05:
                     if (StructBloco.angulo.Equals(Enums.Rotacao.r0))
                     {
-                        arrData[4] = true; // .... 0123
-                        arrData[5] = true; // ###. 4567
-                        arrData[6] = true; // .#.. 8901
-                        arrData[9] = true; // .... 2345
+                        arrData[4] = true;
+                        arrData[5] = true;
+                        arrData[6] = true;
+                        arrData[9] = true;
                     }
                     else if (StructBloco.angulo.Equals(Enums.Rotacao.r90))
                     {
-                        arrData[1] = true; // .#.. 0123
-                        arrData[4] = true; // ##.. 4567
-                        arrData[5] = true; // .#.. 8901
-                        arrData[9] = true; // .... 2345
+                        arrData[1] = true; 
+                        arrData[4] = true; 
+                        arrData[5] = true; 
+                        arrData[9] = true; 
                     }
                     else if (StructBloco.angulo.Equals(Enums.Rotacao.r180))
                     {
-                        arrData[5] = true;  // .... 0123
-                        arrData[8] = true;  // .#.. 4567
-                        arrData[9] = true;  // ###. 8901
-                        arrData[10] = true; // .... 2345
+                        arrData[5] = true;  
+                        arrData[8] = true;  
+                        arrData[9] = true;  
+                        arrData[10] = true; 
                     }
                     else
                     {
-                        arrData[1] = true; // .#.. 0123
-                        arrData[5] = true; // .##. 4567
-                        arrData[6] = true; // .#.. 8901
-                        arrData[9] = true; // .... 2345
+                        arrData[1] = true;
+                        arrData[5] = true;
+                        arrData[6] = true;
+                        arrData[9] = true;
                     }
                     break;
                 case Enums.TipoBloco.bloco06:
                     if (StructBloco.angulo.Equals(Enums.Rotacao.r0))
                     {
-                        arrData[4] = true; // .... 0123
-                        arrData[5] = true; // ###. 4567
-                        arrData[6] = true; // #... 8901
-                        arrData[8] = true; // .... 2345
+                        arrData[4] = true; 
+                        arrData[5] = true; 
+                        arrData[6] = true; 
+                        arrData[8] = true; 
                     }
                     else if (StructBloco.angulo.Equals(Enums.Rotacao.r90))
                     {
-                        arrData[0] = true; // ##.. 0123
-                        arrData[1] = true; // .#.. 4567
-                        arrData[5] = true; // .#.. 8901
-                        arrData[9] = true; // .... 2345
+                        arrData[0] = true; 
+                        arrData[1] = true; 
+                        arrData[5] = true; 
+                        arrData[9] = true; 
                     }
                     else if (StructBloco.angulo.Equals(Enums.Rotacao.r180))
                     {
-                        arrData[6] = true; // .... 0123
-                        arrData[8] = true; // ..#. 4567
-                        arrData[9] = true; // ###. 8901
-                        arrData[10] = true; // .... 2345
+                        arrData[6] = true; 
+                        arrData[8] = true; 
+                        arrData[9] = true; 
+                        arrData[10] = true;
                     }
                     else
                     {
-                        arrData[1] = true; // .#.. 0123
-                        arrData[5] = true; // .#.. 4567
-                        arrData[9] = true; // .##. 8901
-                        arrData[10] = true; // .... 2345
+                        arrData[1] = true; 
+                        arrData[5] = true; 
+                        arrData[9] = true; 
+                        arrData[10] = true;
                     }
                     break;
                 case Enums.TipoBloco.bloco07:
                     if (StructBloco.angulo.Equals(Enums.Rotacao.r0))
                     {
-                        arrData[4] = true; // .... 0123
-                        arrData[5] = true; // ###. 4567
-                        arrData[6] = true; // ..#. 8901
-                        arrData[10] = true; // .... 2345
+                        arrData[4] = true; 
+                        arrData[5] = true; 
+                        arrData[6] = true; 
+                        arrData[10] = true;
                     }
                     else if (StructBloco.angulo.Equals(Enums.Rotacao.r90))
                     {
-                        arrData[1] = true; // .#.. 0123
-                        arrData[5] = true; // .#.. 4567
-                        arrData[8] = true; // ##.. 8901
-                        arrData[9] = true; // .... 2345
+                        arrData[1] = true; 
+                        arrData[5] = true; 
+                        arrData[8] = true; 
+                        arrData[9] = true; 
                     }
                     else if (StructBloco.angulo.Equals(Enums.Rotacao.r180))
                     {
-                        arrData[4] = true; // .... 0123
-                        arrData[8] = true; // #... 4567
-                        arrData[9] = true; // ###. 8901
-                        arrData[10] = true; // .... 2345
+                        arrData[4] = true; 
+                        arrData[8] = true; 
+                        arrData[9] = true; 
+                        arrData[10] = true;
                     }
                     else
                     {
-                        arrData[1] = true; // .##. 0123
-                        arrData[2] = true; // .#.. 4567
-                        arrData[5] = true; // .#.. 8901
-                        arrData[9] = true; // .... 2345
+                        arrData[1] = true; 
+                        arrData[2] = true; 
+                        arrData[5] = true; 
+                        arrData[9] = true; 
                     }
                     break;
             }
@@ -248,97 +232,79 @@ namespace NeoTetris
 
         public void Ajustes(ref WindowRect wrBlock, bool[] arrData)
         {
-            //  This function returns the exact measurement of the block. 
-
             wrBlock = new WindowRect();
 
             int coluna;
             int linha;
-            bool isAdj;
+            bool estaAjustado;
 
-            //  Check empty colums from the left-side of the block, and if found, 
-            // increase the left margin.
-            isAdj = true;
+            estaAjustado = true;
             for (coluna = 0; coluna < TAMANHO_BLOCO; coluna++)
             {
                 for (linha = 0; linha < TAMANHO_BLOCO; linha++)
                     if (arrData[coluna + linha * TAMANHO_BLOCO])
                     {
-                        isAdj = false;
+                        estaAjustado = false;
                         break;
                     }
 
-                if (isAdj)
-                    // left margin
-                    wrBlock.left++;
+                if (estaAjustado)
+                    wrBlock.esquerda++;
                 else
                     break;
             }
-            // end left Ajustes
-
-            //  Check empty rows from the top-side of the block, and if found, 
-            // increse the top margin. 
-            isAdj = true;
+            
+            estaAjustado = true;
             for (linha = 0; linha < TAMANHO_BLOCO; linha++)
             {
                 for (coluna = 0; coluna < TAMANHO_BLOCO; coluna++)
                     if (arrData[coluna + linha * TAMANHO_BLOCO])
                     {
-                        isAdj = false;
+                        estaAjustado = false;
                         break;
                     }
 
-                if (isAdj)
-                    wrBlock.top++;
+                if (estaAjustado)
+                    wrBlock.topo++;
                 else
                     break;
             }
-            // end top Ajustes
-
-            //  Check empty columns from the right-side of the block, and if found, 
-            // increase the right margin.
-            isAdj = true;
+            
+            estaAjustado = true;
             for (coluna = TAMANHO_BLOCO - 1; coluna >= 0; coluna--)
             {
                 for (linha = 0; linha < TAMANHO_BLOCO; linha++)
                     if (arrData[coluna + linha * TAMANHO_BLOCO])
                     {
-                        isAdj = false;
+                        estaAjustado = false;
                         break;
                     }
 
-                if (isAdj)
-                    wrBlock.width++;
+                if (estaAjustado)
+                    wrBlock.largura++;
                 else
                     break;
             }
 
-            // get the exact width of the block
-            wrBlock.width = TAMANHO_BLOCO - (wrBlock.left + wrBlock.width);
-            // end right Ajustes
-
-            //  Check empty rows from the bottom-side of the block, and if found, 
-            // increase the bottom.
-            isAdj = true;
+            wrBlock.largura = TAMANHO_BLOCO - (wrBlock.esquerda + wrBlock.largura);
+            
+            estaAjustado = true;
             for (linha = TAMANHO_BLOCO - 1; linha >= 0; linha--)
             {
                 for (coluna = 0; coluna < TAMANHO_BLOCO; coluna++)
                     if (arrData[coluna + linha * TAMANHO_BLOCO])
                     {
-                        isAdj = false;
+                        estaAjustado = false;
                         break;
                     }
 
-                if (isAdj)
-                    // bottom margin
-                    wrBlock.height++;
+                if (estaAjustado)
+                    wrBlock.altura++;
                 else
                     break;
             }
 
-            // get the exact height of the block.
-            wrBlock.height = TAMANHO_BLOCO - (wrBlock.top + wrBlock.height);
-            // end top Ajustes;
+            wrBlock.altura = TAMANHO_BLOCO - (wrBlock.topo + wrBlock.altura);
         }
     }
 }

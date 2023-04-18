@@ -13,41 +13,40 @@ struct StructBloco
     }
 }
 
-
 struct StructBlocoEstilo
 {
-    public ConsoleColor color;
-    public Boolean isBlock;
+    public ConsoleColor cor;
+    public Boolean bloco;
 
-    public StructBlocoEstilo(ConsoleColor newColor, Boolean newIsBlock)
+    public StructBlocoEstilo(ConsoleColor novaCor, Boolean novoBloco)
     {
-        this.color = newColor;
-        this.isBlock = newIsBlock;
+        this.cor = novaCor;
+        this.bloco = novoBloco;
     }
 }
 
 struct WindowRect
 {
-    public int left;
-    public int top;
-    public int width;
-    public int height;
+    public int esquerda;
+    public int topo;
+    public int largura;
+    public int altura;
 
-    public WindowRect(int newLeft, int newTop, int newWidth, int newHeight)
+    public WindowRect(int novaEsquerda, int novoTopo, int novaLargura, int novaAltura)
     {
-        this.left = newLeft;
-        this.top = newTop;
-        this.width = newWidth;
-        this.height = newHeight;
+        this.esquerda = novaEsquerda;
+        this.topo = novoTopo;
+        this.largura = novaLargura;
+        this.altura = novaAltura;
     }
 }
 
-struct Point
+struct Ponteiro
 {
     public int x;
     public int y;
 
-    public Point(int x, int y)
+    public Ponteiro(int x, int y)
     {
         this.x = x;
         this.y = y;
